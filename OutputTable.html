@@ -2,9 +2,10 @@
 <html>
 <head>
   <title>Stylish Form to Table</title>
+
   <style>
     body {
-      font-family: Arial, Helvetica, sans-serif sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: mediumturquoise;
       display: flex;
       justify-content: center;
@@ -45,7 +46,7 @@
     }
 
     input:focus {
-      border-color:blue;
+      border-color: blue;
       box-shadow: 0 0 5px rgba(0,123,255,0.5);
     }
 
@@ -72,32 +73,62 @@
       background: khaki;
     }
 
+    
+
+    .table-container {
+      max-height: 250px;
+      overflow-y: auto;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
     table {
-      margin-top: 30px;
       width: 100%;
       border-collapse: collapse;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      table-layout: fixed;
+      word-wrap: break-word;
     }
 
     th, td {
       padding: 12px 15px;
       text-align: left;
       border-bottom: 1px solid #ddd;
+      word-break: break-word;
     }
 
     th {
       background-color: mediumturquoise;
       color: white;
+      position: sticky;
+      top: 0;
     }
 
     tr:nth-child(even) {
       background-color: #f9f9f9;
     }
 
+    @media (max-width: 400px) {
+      .container {
+        width: 95%;
+        padding: 20px;
+      }
+
+      body {
+        padding-top: 20px;
+      }
+
+      table, th, td {
+        font-size: 12px;
+      }
+
+      button {
+        font-size: 14px;
+      }
+    }
+
   </style>
 </head>
+
 <body>
 
   <div class="container">
@@ -123,19 +154,21 @@
       <button type="submit">Submit</button>
     </form>
 
-    <table id="dataTable">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Contact Number</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-      </tbody>
-    </table>
+    
+    <div class="table-container">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Contact Number</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
   </div>
 
   <script>
@@ -145,7 +178,6 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      
       document.getElementById('nameError').textContent = '';
       document.getElementById('ageError').textContent = '';
       document.getElementById('emailError').textContent = '';
@@ -158,26 +190,22 @@
 
       let isValid = true;
 
-      
       if(name === '') {
         document.getElementById('nameError').textContent = 'Name is required.';
         isValid = false;
       }
 
-      
       if(age === '' || isNaN(age) || age <= 0) {
         document.getElementById('ageError').textContent = 'Enter a valid age.';
         isValid = false;
       }
 
-      
       const emailRegex = /^[a-zA-Z0-9]+[0-9]*@[a-zA-Z]+\.[a-zA-Z]{3}$/;
       if(!emailRegex.test(email)) {
         document.getElementById('emailError').textContent = 'Email must be like: name123@domain.com';
         isValid = false;
       }
 
-      
       const contactRegex = /^[0-9]{1,11}$/;
       if(!contactRegex.test(contact)) {
         document.getElementById('contactError').textContent = 'Contact must be numeric and max 11 digits.';
@@ -186,7 +214,6 @@
 
       if(!isValid) return;
 
-      
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${name}</td>
@@ -196,7 +223,6 @@
       `;
       tableBody.appendChild(row);
 
-      
       form.reset();
     });
   </script>

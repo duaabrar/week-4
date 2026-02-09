@@ -1,26 +1,31 @@
+var links = document.querySelectorAll(".nav-link");
 
-var home = document.getElementById("home");
-var about = document.getElementById("aboutLink");
-var contact = document.getElementById("contactLink");
+window.onload = function () {
 
+    var current = window.location.pathname;
 
-home.onclick = function () {
-    home.classList.add("active");
-    about.classList.remove("active");
-    contact.classList.remove("active");
+    links.forEach(function(link){
+
+        link.classList.remove("active");
+
+        if(current.includes(link.getAttribute("href"))){
+            link.classList.add("active");
+        }
+
+        if(current == "/" || current.includes("index.html")){
+            document.getElementById("home").classList.add("active");
+        }
+    });
 };
 
-about.onclick = function () {
-    about.classList.add("active");
-    home.classList.remove("active");
-    contact.classList.remove("active");
-};
 
+links.forEach(function(link){
+    link.onclick = function(){
 
-contact.onclick = function () {
-    contact.classList.add("active");
-    home.classList.remove("active");
-    about.classList.remove("active");
-};
+        links.forEach(l => l.classList.remove("active"));
+
+        this.classList.add("active");
+    };
+});
 
 
